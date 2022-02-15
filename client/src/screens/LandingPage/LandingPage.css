@@ -1,0 +1,28 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-text {
+  /* background: 50% 100% / 50% 50% no-repeat */
+              /* radial-gradient(ellipse at bottom, #fff, transparent, transparent); */
+              /* background: 50% 100% / 50% 50% no-repeat;
+  color: transparent;
+  animation: reveal 3s ease-in-out forwards 2s,
+             glow 5s linear infinite 5s;       */
+  background-repeat: no-repeat;
+  transition: all 500ms ease-in-out;
+  color: transparent;
+  font-style: italic;
+  background-size: 100% 100%;
+  background-position: right;
+  background-image: linear-gradient(to right, rgba(128, 128, 128, 0.746), grey);
+
+}     
+.landing-text:hover {
+    color: rgba(224, 224, 224, 0.89);
+    background-size: 0% 100%;
+}

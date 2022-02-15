@@ -1,0 +1,17 @@
+.brand-link {
+  text-decoration: none;
+  color: white;
+}
+
+.brand-link:hover {
+  color: white;
+}
+
+.my-notes-link {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.753);
+}
+
+.my-notes-link:hover {
+  color: white;
+}
