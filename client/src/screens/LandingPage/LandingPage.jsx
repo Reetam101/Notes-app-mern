@@ -3,7 +3,7 @@ import "./LandingPage.css"
 import { useEffect } from 'react'
 
 const LandingPage = () => {
-  useEffect(() => {
+  //useEffect(() => {
   //   const userInfo = localStorage.getItem("userInfo")
 
   //   if(userInfo) {
@@ -40,6 +40,6 @@ const LandingPage = () => {
     </Container>
 
   ) 
-};
+}
 
-export default LandingPage;
+export default LandingPage

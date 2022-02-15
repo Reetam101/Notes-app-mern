@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Loading from '../../components/Loading'
 import ErrorMessage from '../../components/ErrorMessage'
+import { Link } from 'react-router-dom'
+
 
 const LoginScreen = ({ history }) => {
 	const [email, setEmail] = useState("")
@@ -45,7 +47,7 @@ const LoginScreen = ({ history }) => {
 			<div className="d-flex flex-column p-5 m-5 border border-dark rounded">
 				{error && <ErrorMessage type="danger">{error}</ErrorMessage>}
 				<Form onSubmit={submitHandler}>
-				  <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+				  <Form.Group className="mb-3" controlId="formHorizontalEmail">
 				    <Form.Label column sm={2}>
 				      Email
 				    </Form.Label>
@@ -54,7 +56,7 @@ const LoginScreen = ({ history }) => {
 				    </Col>
 				  </Form.Group>
 
-				  <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
+				  <Form.Group className="mb-3" controlId="formHorizontalPassword">
 				    <Form.Label column sm={2}>
 				      Password
 				    </Form.Label>
@@ -62,7 +64,7 @@ const LoginScreen = ({ history }) => {
 				      <Form.Control type="password" placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 				    </Col>
 				  </Form.Group>
-				  <Form.Group as={Row} className="mb-2">
+				  <Form.Group className="mb-2">
 				    <Col className="mt-3" sm={{ span: 10, offset: 2 }}>
 				      <button className="btn btn-outline-info btn-rounded" type="submit">Login</button>
 				    </Col>
@@ -71,9 +73,9 @@ const LoginScreen = ({ history }) => {
 				    </Col>
 				  </Form.Group>
 				  <Form.Group>
-				  	<p>Create a new account ? <a href="/register">
+				  	<p>Create a new account ? <Link to="/register">
 		                <strong className="text-primary">Register</strong>
-		              </a>
+		              </Link>
 		            </p>
 				  </Form.Group>
 				  </Form>
