@@ -20,6 +20,32 @@ const RegisterScreen = () => {
 	const [error, setError] = useState(false)
 	const [loading, setLoading] = useState(false)
 
+	const postDetails = (pics) => {
+		if(!pics) {
+			return setPicMessage("Please select an image")
+		}
+		setPicMessage(null)
+
+		if(pics.type === 'image/jpeg' || pics.type === 'image/png') {
+			const data = new FormData()
+			data.append('file', pics)
+			data.append('upload_preset', 'noted-app')
+			data.append('cloud_name', 'reetam01')
+			fetch('https://api.cloudinary.com/v1_1/reetam01/image/upload', {
+				method: 'post',
+				body: data
+			}).then((res) => res.json())
+				.then((data) => {
+					console.log(data)
+					setPic(data.url.toString())
+					console.log(setPic)
+				})
+				.catch(err => console.log(err))
+		} else {
+			return setPicMessage("Please select an image!")
+		}
+	}
+
 	const submitHandler = async (e) => {
 		e.preventDefault()
 
@@ -36,11 +62,12 @@ const RegisterScreen = () => {
 
 			setLoading(true)
 			const { data } = await axios.post('/api/users/', {
-				name, email, password, pic
+				name, pic, email, password
 			}, config)
 
 			setLoading(false)
 			localStorage.setItem('userInfo', JSON.stringify(data))
+			console.log(data)
 
 			} catch(error) {
 				setError(error.response.data.message)
@@ -52,6 +79,7 @@ const RegisterScreen = () => {
 		}
 
 	}
+
 
 	return (
 		<MainScreen title='Register'>
@@ -91,10 +119,14 @@ const RegisterScreen = () => {
 				      <Form.Control type="password" placeholder="Confirm Password" value={password2} onChange={(e) => setPassword2(e.target.value)} />
 				    </Col>
 				  </Form.Group>
-
-			    <Form.Group controlId="formFile" className="mb-3">
+				  {picMessage && (
+				  	<ErrorMessage type="danger">{picMessage}</ErrorMessage>
+				  )}
+			    <Form.Group controlId="pic" className="mb-3">
 				    <Form.Label>Upload profile picture</Form.Label>
-				    <Form.Control type="file" />
+				    <Form.Control
+				    	onChange={(e) => postDetails(e.target.files[0])}
+				     	type="file" />
 				  </Form.Group>
 
 				  <Form.Group as={Row} className="mb-2">
