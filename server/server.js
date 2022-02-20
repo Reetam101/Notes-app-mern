@@ -14,15 +14,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("API is running, welcome!");
-});
-
-app.get("/api/notes", (req, res) => {
-  res.json(notes_data);
-});
-
 app.use('/api/users', require('./routes/userRoutes'))
+app.use("/api/notes", require('./routes/noteRoutes'))
 app.use(notFound)
 app.use(errorHandler)
 

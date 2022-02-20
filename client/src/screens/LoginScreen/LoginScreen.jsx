@@ -2,43 +2,30 @@ import './LoginScreen.css'
 import MainScreen from "../../components/MainScreen"
 import { Form, Row, Col, Container, Button } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Loading from '../../components/Loading'
 import ErrorMessage from '../../components/ErrorMessage'
 import { Link } from 'react-router-dom'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../actions/userActions.js'
 
 const LoginScreen = ({ history }) => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
-	const [error, setError] = useState(false)
-	const [loading, setLoading] = useState(false)
+
+	const dispatch = useDispatch()
+	const userLogin = useSelector(state => state.userLogin)
+	const { loading, error, userInfo } = userLogin
+
+	useEffect(() => {
+		if(userInfo) {
+			history.push('/notes')
+		}
+	}, [history, userInfo]) 
 
 	const submitHandler = async (e) => {
 		e.preventDefault()
 
-		try {
-			const config = {
-				headers: {
-					"Content-type": "application/json"
-				}
-			}
-			setLoading(true)
-
-			const { data } = await axios.post('/api/users/login', {
-				email, password
-			}, config)
-
-			console.log(data)
-			localStorage.setItem('userInfo', JSON.stringify(data))
-			setLoading(false)
-		} catch(err) {
-			setError(err.response.data.message)
-			setLoading(false)
-			setTimeout(() => {
-				setError(false)
-			}, 3000)
-		}
+		dispatch(login(email, password))
 	}
 
 
@@ -46,6 +33,7 @@ const LoginScreen = ({ history }) => {
 		<MainScreen title='Login'>
 			<div className="d-flex flex-column p-5 m-5 border border-dark rounded">
 				{error && <ErrorMessage type="danger">{error}</ErrorMessage>}
+				
 				<Form onSubmit={submitHandler}>
 				  <Form.Group className="mb-3" controlId="formHorizontalEmail">
 				    <Form.Label column sm={2}>

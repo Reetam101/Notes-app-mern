@@ -1,34 +1,43 @@
 import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import './RegisterScreen.css'
 import { Col, Form, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import MainScreen from '../../components/MainScreen';
 import ErrorMessage from '../../components/ErrorMessage';
 import Loading from '../../components/Loading';
-import axios from 'axios'
+import { register } from '../../actions/userActions'
 
 
 const RegisterScreen = () => {
 	const [email, setEmail] = useState('');
 	const [name, setName] = useState('')
-	const [pic, setPic] = useState("https://cdn-icons-png.flaticon.com/512/456/456212.png")
+	const [image, setImage] = useState("https://cdn-icons-png.flaticon.com/512/456/456212.png")
 
 	const [password, setPassword] = useState('')
 	const [password2, setPassword2] = useState('')
-	const [message, setMessage] = useState(null)
 	const [picMessage, setPicMessage] = useState(null)
-	const [error, setError] = useState(false)
-	const [loading, setLoading] = useState(false)
+	const [message, setMessage] = useState(null)
+	const dispatch = useDispatch()
 
-	const postDetails = (pics) => {
-		if(!pics) {
+	const { loading, error, userInfo } = useSelector(state => state.userRegister)
+
+	const history = useHistory()
+	useEffect(() => {
+		if(userInfo) {
+			history.push("/notes")
+		}
+	}, [history, userInfo])
+
+	const postDetails = (pic) => {
+		if(!pic) {
 			return setPicMessage("Please select an image")
 		}
 		setPicMessage(null)
 
-		if(pics.type === 'image/jpeg' || pics.type === 'image/png') {
+		if(pic.type === 'image/jpeg' || pic.type === 'image/png') {
 			const data = new FormData()
-			data.append('file', pics)
+			data.append('file', pic)
 			data.append('upload_preset', 'noted-app')
 			data.append('cloud_name', 'reetam01')
 			fetch('https://api.cloudinary.com/v1_1/reetam01/image/upload', {
@@ -37,8 +46,8 @@ const RegisterScreen = () => {
 			}).then((res) => res.json())
 				.then((data) => {
 					console.log(data)
-					setPic(data.url.toString())
-					console.log(setPic)
+					setImage(data.url.toString())
+					console.log(setImage)
 				})
 				.catch(err => console.log(err))
 		} else {
@@ -52,32 +61,8 @@ const RegisterScreen = () => {
 		if(password !== password2) {
 			setMessage('Passwords do not match')
 		} else {
-			setMessage(null)
-			try {
-				const config = {
-				headers: {
-					"Content-type": "application/json"
-				}
-			}
-
-			setLoading(true)
-			const { data } = await axios.post('/api/users/', {
-				name, pic, email, password
-			}, config)
-
-			setLoading(false)
-			localStorage.setItem('userInfo', JSON.stringify(data))
-			console.log(data)
-
-			} catch(error) {
-				setError(error.response.data.message)
-				setLoading(false)
-				setTimeout(() => {
-					setError(false)
-				}, 3000)
-			}
+			dispatch(register(name, email, password, image))
 		}
-
 	}
 
 
@@ -85,6 +70,7 @@ const RegisterScreen = () => {
 		<MainScreen title='Register'>
 			<div className="d-flex flex-column p-5 m-5 border border-dark rounded">
 				 {error && <ErrorMessage type="danger">{error}</ErrorMessage>} 
+				 {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
 				<Form onSubmit={submitHandler}>
 				  <Form.Group className="mb-3" controlId="formHorizontalName">
 				    <Form.Label column sm={2} value={name}>
