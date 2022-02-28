@@ -1,6 +1,6 @@
 import { Accordion, Button, Card } from "react-bootstrap"
 
-const NotesCard = ({ title, content, category, id }) => {
+const NotesCard = ({ title, content, category, id, createdAt }) => {
   const deleteHandler = (id) => {
     if(window.confirm("Are you sure ? ")) {
       // Delete 
@@ -39,7 +39,7 @@ const NotesCard = ({ title, content, category, id }) => {
                       {' '}{content}.{' '}
                     </p>
                     <footer className="blockquote-footer">
-                      Created on <cite title="Source Title">12/2/2022</cite>
+                      Created on <cite title="Source Title">{createdAt.substring(0, 10)}</cite>
                     </footer>
                   </blockquote>
                 </Card.Body>
