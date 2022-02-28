@@ -16,6 +16,7 @@
 
 ## Upcoming features (I want to add)
 - Exporting the notes as PDF
+- Adding notes and organising them based on categories
 - Real time collaboration while editing notes
 - Improving the UI
 - Adding audio notes
