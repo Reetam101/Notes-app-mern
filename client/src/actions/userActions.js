@@ -3,6 +3,7 @@ import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT,
   USER_REGISTRATION_FAIL, 
   USER_REGISTRATION_REQUEST, 
   USER_REGISTRATION_SUCCESS, } from "../constants/userConstants"
+import { toast } from 'react-toastify'
 
 export const login = (email, password) => async (dispatch) => {
   try {

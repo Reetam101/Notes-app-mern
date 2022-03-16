@@ -15,10 +15,10 @@ const Header = () => {
   }
 
   return (
-    <Navbar fixed="top" bg="dark" variant="dark" expand="lg">
+    <Navbar className="navbar-dark bg-primary" fixed="top" expand="lg">
       <Container>
         <Navbar.Brand>
-          <Link className="brand-link h3" to="">Noted</Link>
+          <Link className="brand-link navbar-brand" to="">Noted</Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -33,7 +33,7 @@ const Header = () => {
           </Nav>
           <Nav>
             <Nav.Link>
-              <Link className="my-notes-link h5" to="/notes">My Notes</Link>
+              <Link className="my-notes-link" to="/notes">My Notes</Link>
             </Nav.Link>
             <NavDropdown title="Reetam Chatterjee" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>

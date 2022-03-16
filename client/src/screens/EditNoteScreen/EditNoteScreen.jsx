@@ -1,54 +1,37 @@
 import MainScreen from "../../components/MainScreen"
 import { Card, Form, Col, Row } from 'react-bootstrap'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import Loading from "../../components/Loading"
 import ErrorMessage from "../../components/ErrorMessage"
 import { useDispatch, useSelector } from "react-redux"
-import { createNoteAction } from "../../actions/noteAction"
-import { useHistory } from 'react-router-dom'
+import { createNoteAction, updateNoteAction } from "../../actions/noteAction"
+import axios from "axios"
 import gfm from 'remark-gfm'
-import {toast} from 'react-toastify'
 
-const CreateNoteScreen = () => {
+
+const EditNoteScreen = ({ match, history }) => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [category, setCategory] = useState("")
-  const history = useHistory()
+  const [date, setDate] = useState(null)
   const dispatch = useDispatch()
-	const { loading, error, success } = useSelector(state => state.noteCreate)
+	const { userInfo } = useSelector(state => state.userLogin)
+  
+  const noteUpdate = useSelector((state) => state.noteUpdate)
+  const { loading, error } = noteUpdate
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(createNoteAction(title, content, category))
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   dispatch(createNoteAction(title, content, category))
     
-    if(!title || !content || !category) {
-        toast.error(error, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-      return
-    }
-    resetHandler()
-    history.push('/notes')
-    toast.success('Note created!', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
+  //   if(!title || !content || !category) {
+  //     return
+  //   }
+  //   resetHandler()
+  //   history.push('/notes')
 
-    })
-
-  }
+  // }
 
   const resetHandler = () => {
     setTitle("")
@@ -56,13 +39,40 @@ const CreateNoteScreen = () => {
     setContent("")
   }
 
+  const updateHandler = (e) => {
+    e.preventDefault()
+    dispatch(updateNoteAction(match.params.id, title, content, category))
+    if(!title || !content || !category) return
+
+    resetHandler()
+    history.push('/notes')
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        }
+      }
+      const {data} = await axios.get(`/api/notes/${match.params.id}`, config)
+
+      setTitle(data.title)
+      setContent(data.content)
+      setCategory(data.category)
+      setDate(data.updatedAt)
+    }
+
+    fetchData()
+  }, [match.params.id, date, userInfo])
+
   return (
-    <MainScreen title='Create Note'>
+    <MainScreen title='Edit Note'>
       <Card>
-        <Card.Header>Create a New Note</Card.Header>
+        <Card.Header>Edit Note</Card.Header>
         <Card.Body>
-          {/* {error && <ErrorMessage type="danger">{error}</ErrorMessage>} */}
-          <Form onSubmit={handleSubmit}>
+          {error && <ErrorMessage type="danger">{error}</ErrorMessage>}
+          <Form onSubmit={updateHandler}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Title</Form.Label>
               <Form.Control type="title" placeholder="Enter title" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -92,7 +102,7 @@ const CreateNoteScreen = () => {
             </Form.Group>
             <Form.Group as={Row}>
 				    <Col xs={12} lg={8} md={6} className="mt-3">
-				      <button className="btn btn-info btn-rounded btn-sm" type="submit">Create</button>
+				      <button className="btn btn-info btn-rounded btn-sm" type="submit">Update</button>
 				    </Col>
 				    <Col xs={12} lg={4} md={6} className="mt-3">
 				      <button className="btn btn-outline-warning btn-rounded btn-sm" onClick={resetHandler}>Clear fields</button>
@@ -112,4 +122,4 @@ const CreateNoteScreen = () => {
   )
 }
 
-export default CreateNoteScreen
+export default EditNoteScreen

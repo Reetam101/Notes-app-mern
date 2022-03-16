@@ -1,17 +1,31 @@
-import { Accordion, Button, Card } from "react-bootstrap"
+import { Accordion, Button, Card, Row, Col } from "react-bootstrap"
+import { Link } from 'react-router-dom'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteNoteAction } from "../actions/noteAction"
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+import { MDBBadge } from 'mdb-react-ui-kit'
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter, MDBBtn } from 'mdb-react-ui-kit';
 
 const NotesCard = ({ title, content, category, id, createdAt }) => {
+
+  const dispatch = useDispatch()
+
   const deleteHandler = (id) => {
-    if(window.confirm("Are you sure ? ")) {
+    if(toast('Are you sure ?')) {
       // Delete 
+      dispatch(deleteNoteAction(id))
     }
   }
 
   return (
-    <Accordion>
-      <Accordion.Item eventKey="0">
-      <Card className="mt-3 card border-info">
-        <Card.Header className="d-flex">
+   
+      <Col>
+
+      <MDBCard className="shadow p-3 mb-5 bg-white rounded" style={{ maxWidth: '30rem', maxHeight:'400px' }}>
+        <MDBCardHeader className="d-flex">
 
               <span
                 style={{
@@ -20,34 +34,42 @@ const NotesCard = ({ title, content, category, id, createdAt }) => {
                   fontSize: "25px",
                   alignSelf: "center",
                 }}>
-                <Accordion.Header>{title}</Accordion.Header>
+                  <MDBCardTitle>{title}</MDBCardTitle>
+                
               </span>
               <div>
-                <Button href={`/notes/${id}`} className="btn-success btn-rounded mx-2 btn-sm">Edit</Button>
+                <Link to={`note/${id}`} className="btn-outline-primary mx-2 btn-sm text-decoration-none">View</Link>
+                
+                <Button href={`/edit-note/${id}`} className="btn-success btn-rounded mx-2 btn-sm text-decoration-none">Edit</Button>
                 <Button className="btn-danger btn-rounded mx-2 btn-sm"
                   onClick={() => deleteHandler(id)}>Delete</Button>
+                {/* <ToastContainer /> */}
               </div>
-            </Card.Header>
-              <Accordion.Body>
+            </MDBCardHeader>
 
-                <Card.Body>
-                  <h5>
-                    <span className="badge bg-success">Category - {category}</span>
-                  </h5>
-                  <blockquote className="blockquote mb-0">
-                    <p>
-                      {' '}{content}.{' '}
-                    </p>
-                    <footer className="blockquote-footer">
+                <MDBCardBody>
+                  <MDBBadge pill color="info mb-3">
+                    {category}
+                  </MDBBadge>
+                  <MDBCardText className="mb-3">
+                    
+                      <ReactMarkdown remarkPlugins={[gfm]}>
+                        {content.substring(0, 100)}
+                      </ReactMarkdown>
+                      {
+                        content.length > 100 && (
+                          <Link className="text-decoration-none" to={`/note/${id}`}>read more...</Link>
+                        )
+                      }
+                  </MDBCardText>
+                    
+                    <MDBCardFooter className="text-muted">
                       Created on <cite title="Source Title">{createdAt.substring(0, 10)}</cite>
-                    </footer>
-                  </blockquote>
-                </Card.Body>
-              </Accordion.Body>
+                    </MDBCardFooter>
+                </MDBCardBody>
 
-      </Card>
-        </Accordion.Item>
-    </Accordion>
+      </MDBCard>
+      </Col>
   )
 }
 

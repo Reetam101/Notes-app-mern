@@ -68,7 +68,7 @@ const RegisterScreen = () => {
 
 	return (
 		<MainScreen title='Register'>
-			<div className="d-flex flex-column p-5 m-5 border border-dark rounded">
+			<div className="d-flex flex-column p-5 mx-auto border border-dark rounded bg-black" style={{maxWidth: '65rem'}}>
 				 {error && <ErrorMessage type="danger">{error}</ErrorMessage>} 
 				 {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
 				<Form onSubmit={submitHandler}>

@@ -35,7 +35,7 @@ const updateNote = asyncHandler(async (req, res) => {
 	const { title, content, category } = req.body
 
 	const note = await Note.findById(req.params.id)
-
+	console.log(note.user)
 	if(note.user.toString() !== req.user._id.toString()) {
 		throw new Error("You can not perform this action")
 	}

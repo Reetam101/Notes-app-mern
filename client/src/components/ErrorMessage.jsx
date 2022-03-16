@@ -1,6 +1,6 @@
 const ErrorMessage = ({ type="info", children }) => {
 	return (
-		<div className={`alert alert-dismissible alert-${type}`}>
+		<div className={`alert alert-${type}`}>
 		<strong>{children}</strong>
 		</div>
 	)
