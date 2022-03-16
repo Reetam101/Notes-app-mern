@@ -8,11 +8,13 @@ const getNotes = asyncHandler (async (req, res) => {
 
 const createNote = asyncHandler(async (req, res) => {
 	const { title, content, category } = req.body
+	const categoryArray = category.split(', ')
+	console.log(categoryArray)
 	if(!title || !content || !category) {
 		res.status(400)
 		throw new Error("Please fill all the fields")
 	} else {
-		const new_note = new Note({ user: req.user._id, title, content, category })
+		const new_note = new Note({ user: req.user._id, title, content, category: categoryArray })
 
 		const createdNote = await new_note.save()
 		return res.status(201).json(createdNote)
@@ -33,7 +35,8 @@ const getNoteById = asyncHandler(async (req, res) => {
 
 const updateNote = asyncHandler(async (req, res) => {
 	const { title, content, category } = req.body
-
+	const categoryArray = category.split(', ')
+	console.log(categoryArray)
 	const note = await Note.findById(req.params.id)
 	console.log(note.user)
 	if(note.user.toString() !== req.user._id.toString()) {
@@ -43,7 +46,7 @@ const updateNote = asyncHandler(async (req, res) => {
 	if(note) {
 		note.title = title
 		note.content = content
-		note.category = category
+		note.category = categoryArray
 
 		const updatedNote = await note.save()
 		return res.status(201).json(updatedNote)

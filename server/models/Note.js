@@ -9,10 +9,10 @@ const noteSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	category: {
+	category: [{
 		type: String,
 		required: true
-	},
+	}],
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,

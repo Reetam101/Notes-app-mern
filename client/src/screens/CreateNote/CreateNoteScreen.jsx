@@ -88,7 +88,7 @@ const CreateNoteScreen = () => {
 
             <Form.Group className="mb-3" controlId="content">
               <Form.Label>Category</Form.Label>
-              <Form.Control type="content" placeholder="Enter Category" value={category} onChange={(e) => setCategory(e.target.value)} />
+              <Form.Control type="content" placeholder="Enter Category" data-role="tagsinput" value={category} onChange={(e) => setCategory(e.target.value)} />
             </Form.Group>
             <Form.Group as={Row}>
 				    <Col xs={12} lg={8} md={6} className="mt-3">

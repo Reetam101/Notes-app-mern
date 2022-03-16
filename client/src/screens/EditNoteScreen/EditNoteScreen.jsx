@@ -13,7 +13,7 @@ import gfm from 'remark-gfm'
 const EditNoteScreen = ({ match, history }) => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState([])
   const [date, setDate] = useState(null)
   const dispatch = useDispatch()
 	const { userInfo } = useSelector(state => state.userLogin)

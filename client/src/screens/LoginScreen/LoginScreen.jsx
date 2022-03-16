@@ -58,7 +58,7 @@ const LoginScreen = ({ history }) => {
 
 	return (
 		<MainScreen title='Login'>
-			<div className="d-flex flex-column p-5 mx-auto border border-dark rounded shadow-5-strong bg-black" style={{maxWidth: '50rem'}}>
+			<div className="d-flex flex-column p-5 mx-auto border border-primary shadow mb-4" style={{maxWidth: '50rem'}}>
 				{/* {error && <ErrorMessage type="danger">{error}</ErrorMessage>} */}
 				<Form onSubmit={submitHandler}>
 				  <Form.Group className="mb-3" controlId="formHorizontalEmail">
@@ -79,7 +79,7 @@ const LoginScreen = ({ history }) => {
 				    </Col>
 				  </Form.Group>
 				  <Form.Group className="mb-2">
-				    <Col className="mt-3" sm={{ span: 10, offset: 2 }}>
+				    <Col className="mt-3">
 				      <button className="btn btn-outline-info btn-rounded" type="submit">Login</button>
 				    </Col>
 				    <Col className="mt-3" sm={{ span: 10, offset: 2 }}>

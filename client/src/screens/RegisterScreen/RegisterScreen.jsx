@@ -68,7 +68,7 @@ const RegisterScreen = () => {
 
 	return (
 		<MainScreen title='Register'>
-			<div className="d-flex flex-column p-5 mx-auto border border-dark rounded bg-black" style={{maxWidth: '65rem'}}>
+			<div className="d-flex flex-column p-5 mx-auto border shadow border-primary mb-5" style={{maxWidth: '65rem'}}>
 				 {error && <ErrorMessage type="danger">{error}</ErrorMessage>} 
 				 {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
 				<Form onSubmit={submitHandler}>
@@ -116,8 +116,8 @@ const RegisterScreen = () => {
 				  </Form.Group>
 
 				  <Form.Group as={Row} className="mb-2">
-				    <Col className="mt-" sm={{ span: 10, offset: 2 }}>
-				      <button className="btn btn-outline-info btn-rounded" type="submit">Register</button>
+				    <Col className="mt-3">
+				      <button className="btn btn-outline-info" type="submit">Register</button>
 				    </Col>
 				    <Col className="mt-3" sm={{ span: 10, offset: 2 }}>
 							{loading && <Loading />}

@@ -47,6 +47,7 @@ export const createNoteAction = (title, content, category) => async (dispatch, g
         Authorization: `Bearer ${userInfo.token}`,
       }
     }
+    
     const { data } = await axios.post('api/notes/create', { title, content, category }, config)
 
     dispatch({

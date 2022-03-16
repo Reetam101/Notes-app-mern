@@ -24,7 +24,7 @@ const NotesCard = ({ title, content, category, id, createdAt }) => {
    
       <Col>
 
-      <MDBCard className="shadow p-3 mb-5 bg-white rounded" style={{ maxWidth: '30rem', maxHeight:'400px' }}>
+      <MDBCard className="shadow p-3 mb-5 bg-white rounded" style={{ maxWidth: '30rem', maxHeight:'450px' }}>
         <MDBCardHeader className="d-flex">
 
               <span
@@ -48,13 +48,12 @@ const NotesCard = ({ title, content, category, id, createdAt }) => {
             </MDBCardHeader>
 
                 <MDBCardBody>
-                  <MDBBadge pill color="info mb-3">
-                    {category}
-                  </MDBBadge>
+                  
+                    {category.map(cat => <MDBBadge pill color="info mb-3 mx-1">{cat}</MDBBadge>)}
                   <MDBCardText className="mb-3">
                     
                       <ReactMarkdown remarkPlugins={[gfm]}>
-                        {content.substring(0, 100)}
+                        {content.substring(0, 200)}
                       </ReactMarkdown>
                       {
                         content.length > 100 && (
