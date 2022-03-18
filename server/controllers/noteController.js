@@ -2,7 +2,8 @@ const Note = require('../models/Note.js')
 const asyncHandler = require('express-async-handler')
 
 const getNotes = asyncHandler (async (req, res) => {
-	const notes = await Note.find(req.user._id)
+	const notes = await Note.find({user: req.user._id})
+	// console.log(notes)
 	return res.status(200).json(notes)
 })
 
@@ -35,10 +36,13 @@ const getNoteById = asyncHandler(async (req, res) => {
 
 const updateNote = asyncHandler(async (req, res) => {
 	const { title, content, category } = req.body
-	const categoryArray = category.split(', ')
-	console.log(categoryArray)
+	// const categoryArray = []
+	// if(category.includes(", ")) {
+	// 	categoryArray = category.split(', ')
+	// 	console.log(categoryArray)
+	// }
 	const note = await Note.findById(req.params.id)
-	console.log(note.user)
+	// console.log(note.user)
 	if(note.user.toString() !== req.user._id.toString()) {
 		throw new Error("You can not perform this action")
 	}
@@ -46,10 +50,18 @@ const updateNote = asyncHandler(async (req, res) => {
 	if(note) {
 		note.title = title
 		note.content = content
-		note.category = categoryArray
+		if(category.toString().includes(',')) {
+			const categoryArray = category.toString().split(', ')
+			// for(let c in categoryArray) {
+			// 	note.category.push(categoryArray[c])
+			// }
+			note.category = categoryArray
+		} else {
+			note.category = category
+		}
 
 		const updatedNote = await note.save()
-		return res.status(201).json(updatedNote)
+		return res.status(201).json({updatedNote, message: 'Note Updated successfully!'})
 	} else {
 		res.status(404)
 		throw new Error("Note not found")
@@ -73,4 +85,14 @@ const deleteNote = asyncHandler(async (req, res) => {
 	}
 })
 
-module.exports = { getNotes, createNote, getNoteById, updateNote, deleteNote }
+const getTags = asyncHandler(async (req, res) => {
+	const notes = await Note.find({user: req.user._id})
+	const tagsArray = []
+	notes.map((note) => {
+		note.category.map(tag => tagsArray.push(tag))
+	})
+	const uniqueTags = [...new Set(tagsArray)]
+	return res.status(200).json({uniqueTags})
+})
+
+module.exports = { getNotes, createNote, getNoteById, updateNote, deleteNote, getTags }
