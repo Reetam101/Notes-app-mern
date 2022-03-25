@@ -22,6 +22,10 @@
 - Adding audio notes
 - Viewing other user's notes
 
+## Screenshots
+![Screenshot (2)](https://user-images.githubusercontent.com/59496980/158549715-f4419252-e5cd-44ac-a059-637cf9446fc7.png)
+![Screenshot (3)](https://user-images.githubusercontent.com/59496980/158549798-d8b70a0a-be1b-4c8d-9a88-1c4c3682f45c.png)
+
 ## Use `npm install` to install all dependencies after going into specific directories.
 
 ## How to start in development mode
