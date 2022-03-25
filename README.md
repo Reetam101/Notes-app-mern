@@ -1,4 +1,6 @@
 # Notes-app-mern
+
+## [Live version](https://n0ted-app.herokuapp.com/) 🔌 on Heroku
 ## Technologies used - 
 - Frontend
 - - React.js
