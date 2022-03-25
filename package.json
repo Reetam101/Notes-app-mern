@@ -8,7 +8,7 @@
     "server": "nodemon server",
     "client": "cd .. && cd client && npm install",
     "dev": "concurrently \"npm run server\" \" cd .. && cd client && npm start\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run client && npm run build"
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
