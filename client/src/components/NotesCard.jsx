@@ -1,30 +1,31 @@
-import { Accordion, Button, Card, Row, Col } from "react-bootstrap"
+import { Button, Card, Row, Col, Container } from "react-bootstrap"
 import { Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
+import remarkGemoji from 'remark-gemoji'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteNoteAction } from "../actions/noteAction"
-import { ToastContainer, toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css';
 import { MDBBadge } from 'mdb-react-ui-kit'
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardHeader, MDBCardFooter, MDBBtn } from 'mdb-react-ui-kit';
 
-const NotesCard = ({ title, content, category, id, createdAt }) => {
+const NotesCard = ({ title, content, category, id, createdAt, key }) => {
 
   const dispatch = useDispatch()
 
   const deleteHandler = (id) => {
-    if(toast('Are you sure ?')) {
+    if(window.confirm('Are you sure ?')) {
       // Delete 
       dispatch(deleteNoteAction(id))
+
     }
   }
 
   return (
    
-      <Col>
+      // <Col key={key}>
 
-      <MDBCard className="shadow p-3 mb-5 bg-white rounded" style={{ maxWidth: '30rem', maxHeight:'450px' }}>
+      <MDBCard key={key} className="shadow p-3 mb-5 bg-white rounded">
         <MDBCardHeader className="d-flex">
 
               <span
@@ -43,7 +44,6 @@ const NotesCard = ({ title, content, category, id, createdAt }) => {
                 <Button href={`/edit-note/${id}`} className="btn-success btn-rounded mx-2 btn-sm text-decoration-none">Edit</Button>
                 <Button className="btn-danger btn-rounded mx-2 btn-sm"
                   onClick={() => deleteHandler(id)}>Delete</Button>
-                {/* <ToastContainer /> */}
               </div>
             </MDBCardHeader>
 
@@ -52,7 +52,7 @@ const NotesCard = ({ title, content, category, id, createdAt }) => {
                     {category.map(cat => <MDBBadge pill color="info mb-3 mx-1">{cat}</MDBBadge>)}
                   <MDBCardText className="mb-3">
                     
-                      <ReactMarkdown remarkPlugins={[gfm]}>
+                      <ReactMarkdown remarkPlugins={[gfm, remarkGemoji]}>
                         {content.substring(0, 200)}
                       </ReactMarkdown>
                       {
@@ -68,7 +68,7 @@ const NotesCard = ({ title, content, category, id, createdAt }) => {
                 </MDBCardBody>
 
       </MDBCard>
-      </Col>
+      // </Col>
   )
 }
 

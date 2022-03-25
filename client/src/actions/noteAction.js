@@ -16,6 +16,7 @@ export const listNotes = () => async (dispatch, getState) => {
     }
 
     const { data } = await axios.get('api/notes', config)
+    // console.log(data)
 
     dispatch({
       type: NOTES_LIST_SUCCESS,
@@ -81,6 +82,7 @@ export const updateNoteAction = (id, title, content, category) => async (dispatc
       }
     }
     const { data } = await axios.put(`/api/notes/${id}`, { title, content, category }, config)
+    console.log(data)
 
     dispatch({
       type: NOTES_UPDATE_SUCCESS,

@@ -3,12 +3,12 @@ import { Card, Form, Col, Row } from 'react-bootstrap'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import Loading from "../../components/Loading"
-import ErrorMessage from "../../components/ErrorMessage"
+import Message from "../../components/Message"
 import { useDispatch, useSelector } from "react-redux"
 import { createNoteAction } from "../../actions/noteAction"
 import { useHistory } from 'react-router-dom'
 import gfm from 'remark-gfm'
-import {toast} from 'react-toastify'
+import remarkGemoji from 'remark-gemoji'
 
 const CreateNoteScreen = () => {
   const [title, setTitle] = useState("")
@@ -24,30 +24,10 @@ const CreateNoteScreen = () => {
     dispatch(createNoteAction(title, content, category))
     
     if(!title || !content || !category) {
-        toast.error(error, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
       return
     }
     resetHandler()
     history.push('/notes')
-    toast.success('Note created!', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-
-    })
-
   }
 
   const resetHandler = () => {
@@ -61,7 +41,7 @@ const CreateNoteScreen = () => {
       <Card>
         <Card.Header>Create a New Note</Card.Header>
         <Card.Body>
-          {/* {error && <ErrorMessage type="danger">{error}</ErrorMessage>} */}
+          {/* {error && <Message type="danger">{error}</Message>} */}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Title</Form.Label>
@@ -81,7 +61,7 @@ const CreateNoteScreen = () => {
               <Card>
                 <Card.Header>Note Preview</Card.Header>
                 <Card.Body>
-                  <ReactMarkdown remarkPlugins={[gfm]}>{content}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[gfm, remarkGemoji]}>{content}</ReactMarkdown>
                 </Card.Body>
               </Card>
             )}

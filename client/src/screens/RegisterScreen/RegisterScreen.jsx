@@ -4,28 +4,28 @@ import './RegisterScreen.css'
 import { Col, Form, Row } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import MainScreen from '../../components/MainScreen';
-import ErrorMessage from '../../components/ErrorMessage';
+import Message from '../../components/Message';
 import Loading from '../../components/Loading';
 import { register } from '../../actions/userActions'
 
 
-const RegisterScreen = () => {
+const RegisterScreen = ({history}) => {
 	const [email, setEmail] = useState('');
 	const [name, setName] = useState('')
 	const [image, setImage] = useState("https://cdn-icons-png.flaticon.com/512/456/456212.png")
 
 	const [password, setPassword] = useState('')
 	const [password2, setPassword2] = useState('')
-	const [picMessage, setPicMessage] = useState(null)
-	const [message, setMessage] = useState(null)
+	const [picMessage, setPicMessage] = useState('')
+	const [message, setMessage] = useState('')
 	const dispatch = useDispatch()
 
 	const { loading, error, userInfo } = useSelector(state => state.userRegister)
 
-	const history = useHistory()
+	// const history = useHistory()
 	useEffect(() => {
 		if(userInfo) {
-			history.push("/notes")
+			history.push("/login")
 		}
 	}, [history, userInfo])
 
@@ -45,9 +45,9 @@ const RegisterScreen = () => {
 				body: data
 			}).then((res) => res.json())
 				.then((data) => {
-					console.log(data)
+					// console.log(data)
 					setImage(data.url.toString())
-					console.log(setImage)
+					// console.log(setImage)
 				})
 				.catch(err => console.log(err))
 		} else {
@@ -69,8 +69,8 @@ const RegisterScreen = () => {
 	return (
 		<MainScreen title='Register'>
 			<div className="d-flex flex-column p-5 mx-auto border shadow border-primary mb-5" style={{maxWidth: '65rem'}}>
-				 {error && <ErrorMessage type="danger">{error}</ErrorMessage>} 
-				 {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+				 {error && <Message type="danger">{error}</Message>} 
+				 {message && <Message variant="danger">{message}</Message>}
 				<Form onSubmit={submitHandler}>
 				  <Form.Group className="mb-3" controlId="formHorizontalName">
 				    <Form.Label column sm={2} value={name}>
@@ -106,7 +106,7 @@ const RegisterScreen = () => {
 				    </Col>
 				  </Form.Group>
 				  {picMessage && (
-				  	<ErrorMessage type="danger">{picMessage}</ErrorMessage>
+				  	<Message type="danger">{picMessage}</Message>
 				  )}
 			    <Form.Group controlId="pic" className="mb-3">
 				    <Form.Label>Upload profile picture</Form.Label>

@@ -3,14 +3,14 @@ import "./LandingPage.css"
 import { useEffect } from 'react'
 import { Journal } from "react-bootstrap-icons";
 
-const LandingPage = () => {
-  //useEffect(() => {
-  //   const userInfo = localStorage.getItem("userInfo")
+const LandingPage = ({history}) => {
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo")
 
-  //   if(userInfo) {
-  //     history.push("/notes")
-  //   }
-  // }, [history])
+    if(userInfo) {
+      history.push("/notes")
+    }
+  }, [history])
 
   return (
     <Container>

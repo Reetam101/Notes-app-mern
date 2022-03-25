@@ -4,11 +4,12 @@ import './Header.css'
 import { useDispatch, useSelector } from 'react-redux'
 import {logout} from '../../actions/userActions'
 
-const Header = () => {
+const Header = ({ setSearch }) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
+
   const logoutHandler = () => {
     dispatch(logout())
     history.push("/")
@@ -28,18 +29,26 @@ const Header = () => {
                 type="text"
                 placeholder="search"
                 className="mr-sm-2" 
+                onChange={(e) => setSearch(e.target.value)}
               />
             </Form>
           </Nav>
           <Nav>
+            {userInfo ? ( <>
             <Nav.Link>
               <Link className="my-notes-link" to="/notes">My Notes</Link>
             </Nav.Link>
-            <NavDropdown title="Reetam Chatterjee" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-            </NavDropdown>
+              <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+              </NavDropdown>
+              </>
+            ) : (
+              <Nav.Link>
+                <Link className="my-notes-link" to="/login">Login</Link>
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

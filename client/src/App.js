@@ -9,22 +9,25 @@ import 'bootswatch/dist/lux/bootstrap.min.css';
 import { BrowserRouter, Route } from 'react-router-dom'; 
 import SingleNoteScreen from './screens/SingleNoteScreen/SingleNoteScreen';
 import EditNoteScreen from './screens/EditNoteScreen/EditNoteScreen';
-import { ToastContainer } from 'react-toastify';
+import { useState } from 'react';
+import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 
 function App() {
+  const [search, setSearch] = useState("")
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header setSearch={setSearch}/>
       <main>
         <Route exact path="/" component={LandingPage} />
         <Route path="/login" component={LoginScreen} />
+        <Route path="/profile" component={ProfileScreen} />
         <Route path="/register" component={RegisterScreen} />
         <Route path="/create-note" component={CreateNoteScreen} />
         <Route path="/note/:id" component={SingleNoteScreen} />
         <Route path="/edit-note/:id" component={EditNoteScreen} />
-        <Route path="/notes" component={Notes} />
+        <Route path="/notes" component={() => <Notes search={search}/>} />
       </main>
-      <ToastContainer theme="dark"/>
       <Footer />
     </BrowserRouter>
   );

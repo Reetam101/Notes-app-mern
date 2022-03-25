@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
+    "@fec/remark-a11y-emoji": "^3.1.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -19,9 +20,9 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.0",
-    "react-toastify": "^8.2.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "remark-gemoji": "^7.0.1",
     "remark-gfm": "^3.0.1",
     "web-vitals": "^2.1.4"
   },

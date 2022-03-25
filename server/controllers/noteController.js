@@ -10,7 +10,7 @@ const getNotes = asyncHandler (async (req, res) => {
 const createNote = asyncHandler(async (req, res) => {
 	const { title, content, category } = req.body
 	const categoryArray = category.split(', ')
-	console.log(categoryArray)
+	// console.log(categoryArray)
 	if(!title || !content || !category) {
 		res.status(400)
 		throw new Error("Please fill all the fields")

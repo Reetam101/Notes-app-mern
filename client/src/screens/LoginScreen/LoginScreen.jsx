@@ -3,12 +3,10 @@ import MainScreen from "../../components/MainScreen"
 import { Form, Row, Col, Container, Button } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import Loading from '../../components/Loading'
-import ErrorMessage from '../../components/ErrorMessage'
+import Message from '../../components/Message'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../actions/userActions.js'
-import { ToastContainer, toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css';
 
 const LoginScreen = ({ history }) => {
 	const [email, setEmail] = useState("")
@@ -29,37 +27,13 @@ const LoginScreen = ({ history }) => {
 	const submitHandler = async (e) => {
 		e.preventDefault()
 		dispatch(login(email, password))
-		if(error && !loading) {
-			toast.error(error, {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-
-			})
-		}
-		else {
-			toast.success('Logged in successfully', {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-
-			})
-		}
 	}
 
 
 	return (
 		<MainScreen title='Login'>
 			<div className="d-flex flex-column p-5 mx-auto border border-primary shadow mb-4" style={{maxWidth: '50rem'}}>
-				{/* {error && <ErrorMessage type="danger">{error}</ErrorMessage>} */}
+				{error && <Message type="danger">{error}</Message>}
 				<Form onSubmit={submitHandler}>
 				  <Form.Group className="mb-3" controlId="formHorizontalEmail">
 				    <Form.Label column sm={2}>

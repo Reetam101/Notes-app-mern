@@ -41,7 +41,7 @@ export const noteUpdateReducer = (state = {}, action) => {
     case NOTES_UPDATE_REQUEST:
       return { loading: true }
     case NOTES_UPDATE_SUCCESS:
-      return { loading: false, success: true }
+      return { loading: false, success: true, successMessage: action.payload.message }
     case NOTES_UPDATE_FAIL:
       return { loading: false, error: action.payload, success: false }
     default:

@@ -3,11 +3,13 @@ import { Card, Form, Col, Row } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import Loading from "../../components/Loading"
-import ErrorMessage from "../../components/ErrorMessage"
+import Message from "../../components/Message"
 import { useDispatch, useSelector } from "react-redux"
 import { createNoteAction, updateNoteAction } from "../../actions/noteAction"
 import axios from "axios"
 import gfm from 'remark-gfm'
+import remarkGemoji from 'remark-gemoji'
+
 
 
 const EditNoteScreen = ({ match, history }) => {
@@ -19,7 +21,7 @@ const EditNoteScreen = ({ match, history }) => {
 	const { userInfo } = useSelector(state => state.userLogin)
   
   const noteUpdate = useSelector((state) => state.noteUpdate)
-  const { loading, error } = noteUpdate
+  const { loading, error, success, successMessage } = noteUpdate
 
   // const handleSubmit = (e) => {
   //   e.preventDefault()
@@ -71,7 +73,8 @@ const EditNoteScreen = ({ match, history }) => {
       <Card>
         <Card.Header>Edit Note</Card.Header>
         <Card.Body>
-          {error && <ErrorMessage type="danger">{error}</ErrorMessage>}
+          {error && <Message type="danger">{error}</Message>}
+          {success && <Message type="success">{successMessage}</Message>}
           <Form onSubmit={updateHandler}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Title</Form.Label>
@@ -91,7 +94,7 @@ const EditNoteScreen = ({ match, history }) => {
               <Card>
                 <Card.Header>Note Preview</Card.Header>
                 <Card.Body>
-                  <ReactMarkdown remarkPlugins={[gfm]}>{content}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[gfm, remarkGemoji]}>{content}</ReactMarkdown>
                 </Card.Body>
               </Card>
             )}
