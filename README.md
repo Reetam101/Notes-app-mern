@@ -1,6 +1,9 @@
 # Notes-app-mern
 
 ## [Live version](https://n0ted-app.herokuapp.com/) 🔌 on Heroku
+
+### This web app allows users to create an account and save, delete, edit notes in markdown. Users can also export the notes as PDF.
+
 ## Technologies used - 
 - Frontend
 - - React.js
